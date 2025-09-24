@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000">
+
+    <style>
+        body {
+            transition: background-image 0.8s ease-in-out;
+            text-align: center;
+            padding-top: 70px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100%;
+            margin: 0;
+        }
+        button{
+            padding: 10 px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        @media(max-width: 768px){
+            body{font-size: 35px; padding-top: 50px}
+            button{ font-size: 14px; padding: 8px 16px;}
+        }
+    </style>
+</head>
+<body>
+    <h1 id="titulo"> Bem vindo</h1>
+    <p id="hora"></p>
+    <p id="data"></p>
+    <p id="diautil"></p>
+    <p id="frase"></p>
+
+    <script>
+        function trocar(){
+            const agora = new Date();
+            const hora = agora.getHours().toString().padStart(2, "0");
+            const minutos = agora.getMinutes().toString().padStart(2, "0");
+            const segundos = agora.getSeconds().toString().padStart(2, "0");
+            const diaSemana = agora.getDay();
+            const opcoes = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+            const dataFormatada = agora.toLocaleDateString("pt-BR", opcoes);
+            let cor;
+            let mensagem;
+            let textodiautil;
+            if (diaSemana >= 1 && diaSemana <= 5){
+                textodiautil = "Hoje é dia útil.";
+            } else{
+                textodiautil = "Hoje é dia corrido."
+            }
+
+            if (hora >= 6 && hora < 12) {
+                cor = "#d2691e";
+                mensagem = "Bom dia ☀️";
+                frases = [
+                    "Acordar cedo traz paz.",
+                    "Hoje é um novo começo."
+                ]
+            } else if (hora >= 12 && hora < 18) {
+                cor = "#FF8C00";
+                mensagem = "Boa tarde ⛅";
+                frases = [
+                    "Continue firme!",
+                    "Mantenha o foco!"
+                ]
+            } else if (hora >= 18 && hora < 23){
+                cor = "#1E90FF";
+                mensagem = "Boa noite 🌙";
+                frases = [
+                "Relaxe, você merece!",
+                "Hora de desacelerar."
+                ]
+            } else {
+                cor = "#2F4F4F";
+                mensagem = "A noite é uma criança 🌠"
+                frases = [
+                "Estrelas brilham por você!",
+                "Boa madrugada 🌌"
+                ]
+            }
+
+            document.body.style.backgroundColor = cor;
+            document.getElementById("titulo").innerHTML = mensagem;
+            document.getElementById("hora").innerHTML = `Hora atual : ${hora}:${minutos}:${segundos}`;
+            document.getElementById("data").innerHTML = `Data: ${dataFormatada}`;
+            document.getElementById("diautil").innerHTML = textodiautil;
+        }
+        let frases = [];
+        function trocarFrase(){
+            if (frases.length > 0){
+                const fraseAleatoria = frases[Math.floor(Math.random() * frases.length)];
+                document.getElementById("frase").innerHTML = fraseAleatoria
+            }
+        }
+        trocarFrase();
+        setInterval(trocarFrase, 4000);
+        trocar();
+        setInterval(trocar, 1000)
+
+        if ("service Worker" in navigator){
+            navigator.serviceWorker.register("service-worker.js")
+            .then(() => console.log("Service Worker registrado"))
+            .catch(err => console.log("Erro no SW:", err));
+        }
+    </script>
+</body>
+</html>
