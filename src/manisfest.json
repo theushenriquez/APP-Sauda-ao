@@ -1,0 +1,21 @@
+{
+    "name" : "Primeiro APP",
+    "short_name" : "APP",
+    "start_url" : "corhorario.html",
+    "display" : "standalone",
+    "background_color" : "#ffffff",
+    "theme_color" : "000000",
+    "orientation" : "portrait",
+    "icons" : [
+        {
+            "src" : "yin_yang_192x192.png",
+            "sizes" : "192x192",
+            "type" : "image/png"
+        },
+        {
+            "src" : "yin_yang_512x512.png",
+            "sizes" : "512x512",
+            "type" : "image/png"
+        }
+    ]
+}
